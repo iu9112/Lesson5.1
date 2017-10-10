@@ -1,47 +1,12 @@
 'use strict';
 
-class Pokemon {
-    constructor(name, level) {
-        this.name = name;
-        this.level = level;
-    }
-    show() {
-        console.log(`Hi! My name is ${this.name}, my level is ${this.level}`);
-    }
-    valueOf(){
-        return this.level;
-    }
-}
-
-
-class Pokemonlist extends Array{
-    constructor(...items){
-        items = items.filter(
-            item => item instanceof Pokemon
-        );
-        super(...items);
-    }
-    add(name,level){
-        let newPokemon = new Pokemon(name,level);
-        this.push(newPokemon);
-    }
-    show(){
-        this.forEach(function(item){
-            item.show();
-        });
-        console.log(`There are ${this.length} pokemons here.`);
-    }
-    max(){
-        let strongestPokemon = Math.max(...this);
-        return this.find(
-        item => item.level==strongestPokemon
-        );
-    }
-}
+const Pokemon = require('../pokemon.js').Pokemon;
+const Pokemonlist = require('../pokemon.js').Pokemonlist;
 
 const sinon  = require('sinon');
 const assert = require('assert');
 const expect = require('chai').expect;
+
 describe('Тестирование Pokemon метод show()', () => {
     
     it('Должен выввести имя pikachu и уровень 33', function() {
@@ -60,7 +25,7 @@ describe('Тестирование Pokemon метод show()', () => {
 
 describe('Тестирование Pokemonlist', () => {
     let pokemons;
-    before(() => {
+    beforeEach(() => {
         pokemons = new Pokemonlist();
         pokemons.add('Bulbasaur', 33);
         pokemons.add('Ivysaur', 22);
@@ -88,7 +53,7 @@ describe('Тестирование Pokemonlist', () => {
     
     it('Должен показать пикачу', function() {
     
-        expect(pokemons.max()).eql({ name: 'Pikachu', level: 77 });
+        expect(pokemons.max()).eql({ name: 'Bulbasaur', level: 33 });
         
     });
 });
